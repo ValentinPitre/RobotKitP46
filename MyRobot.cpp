@@ -98,14 +98,14 @@ void MyRobot::setLargeurRobot(float largeur)
 	_Largeur_Robot=largeur;
 }
 
-void MyRobot::avancer(int speed){	move(speed,-speed);	}
+void MyRobot::avancer(int speed){	move(-speed,speed);	}
 void MyRobot::gauche(int speed){	move(speed,speed);	}
 void MyRobot::droite(int speed){	move(-speed,-speed);	}
-void MyRobot::reculer(int speed){	move(-speed,speed);	}
+void MyRobot::reculer(int speed){	move(speed,-speed);	}
 void MyRobot::stop(void)
 {
 	Moteur_g->stop();
-    Moteur_d->stop();
+  Moteur_d->stop();
 }
 
 void MyRobot::avancerCm(int speed, float distance)
@@ -136,21 +136,21 @@ void MyRobot::reculerCm(int speed, float distance)
 
 void MyRobot::move(int speed_g, int speed_d)
 {
-      Moteur_g->runSpeed(speed_g);
-      Moteur_d->runSpeed(speed_d);
+      Moteur_g->setTarPWM(speed_g);
+      Moteur_d->setTarPWM(speed_d);
 }
 void MyRobot::moveDegres(int direction,long degres, int speed)
 {
     speed = abs(speed);
     if(direction == 'a')
     {
-        Moteur_g->moveTo(degres,(float)speed);
-        Moteur_d->moveTo(-degres,(float)speed);
+        Moteur_g->moveTo(-degres,(float)speed);
+        Moteur_d->moveTo(degres,(float)speed);
     }
     else if(direction == 'r')
     {
-        Moteur_g->moveTo(-degres,(float)speed);
-        Moteur_d->moveTo(degres,(float)speed);
+        Moteur_g->moveTo(degres,(float)speed);
+        Moteur_d->moveTo(-degres,(float)speed);
     }
     else if(direction == 'g')
     {
