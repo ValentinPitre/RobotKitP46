@@ -31,8 +31,8 @@ MyRobot::MyRobot(uint8_t portMotG,uint8_t portMotD, float diametre, float largeu
 
 	MyPince=NULL;
 	MyBras=NULL;
-	Serial.begin(9600);
-	Serial3.begin(9600);
+	//Serial.begin(9600);
+	Serial2.begin(9600);
 }
 MyRobot::~MyRobot()
 {
@@ -215,11 +215,11 @@ void MyRobot::moveDegres(int direction,long degres, int speed)
 
   void MyRobot::Bluetooth(void)
   {
-  	if(Serial3.available())
+  	if(Serial2.available())
   	{
-  		uint8_t octet= Serial3.read();
+  		uint8_t octet= Serial2.read();
 
-  		Serial.write(octet);
+  		//Serial.write(octet);
   		uint8_t commande = octet & 0x0f;
   		int vitesse = (int)(255.0*(octet >> 4)/10);
 
