@@ -1,4 +1,4 @@
-Cette librairie a été créée pour contrôler le kit créée par un bonôme d'élèves ingénieurs à Polytech Lille en IMA4.
+Cette librairie a été créée pour contrôler le kit créée par un binôme d'élèves ingénieurs à Polytech Lille en IMA4.
 Vous trouverez les avancées du projet à cette adresse: https://projets-ima.plil.fr/mediawiki/index.php/IMA4_2018/2019_P46
 
 Pour installer la librairie, 2 options sont possibles:

@@ -2,22 +2,12 @@
 #include <MyRobot.h>
 #include <Wire.h>
 
-// Déclaration moteur 1
-MoteurEncodeur Motor1(Port1);
-void isr_process_encoder1(void)
-{
-  if(digitalRead(Motor1.getPinB()) == 0){
-    Motor1.pulsePosMinus();
-  }else{
-   Motor1.pulsePosPlus();}
-}
-
 
 // Déclaration moteur 2
-MoteurEncodeur Motor2(Port2);
+MoteurEncodeur Motor2(2);
 void isr_process_encoder2(void)
 {
-  if(digitalRead(Motor2.getPinB()) == 0){
+  if(digitalRead(Motor2.getPinB()) == 1){
    Motor2.pulsePosMinus();
   }else{
    Motor2.pulsePosPlus();}
@@ -25,33 +15,21 @@ void isr_process_encoder2(void)
 
 
 // Déclaration moteur 3
-MoteurEncodeur Motor3(Port3);
+MoteurEncodeur Motor3(3);
 void isr_process_encoder3(void)
 {
-  if(digitalRead(Motor3.getPinB()) == 0){
+  if(digitalRead(Motor3.getPinB()) == 1){
    Motor3.pulsePosMinus();
   }else{
    Motor3.pulsePosPlus();}
 }
 
 
-// Déclaration moteur 4
-MoteurEncodeur Motor4(Port4);
-void isr_process_encoder4(void)
-{
-  if(digitalRead(Motor4.getPinB()) == 0){
-   Motor4.pulsePosMinus();
-  }else{
-   Motor4.pulsePosPlus();}
-}
-
 //Actualisation de l'encodeur
 void _loop()
 {
-  Motor1.loop();
   Motor2.loop();
   Motor3.loop();
-  Motor4.loop();
 }
 
 //Déclaration du robot
@@ -66,10 +44,8 @@ void _delay(float seconds) {
 
 void setup() {
   //Activation des interruptions
-  attachInterrupt(Motor1.getIntNum(), isr_process_encoder1, RISING);
   attachInterrupt(Motor2.getIntNum(), isr_process_encoder2, RISING);
   attachInterrupt(Motor3.getIntNum(), isr_process_encoder3, RISING);
-  attachInterrupt(Motor4.getIntNum(), isr_process_encoder4, RISING);
 }
 
 void loop() {
@@ -85,19 +61,19 @@ void loop() {
 
   
   Robot.avancerCm(200,10);  //Avancer le robot à la vitesse 200 rpm de 10cm
-  while ((Motor3.isTarPosReached() && Motor2.isTarPosReached()) == true) {
+  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
     _delay(0.1);
   }
   Robot.reculerCm(200,10); //Reculer le robot à la vitesse 200 rpm de 10cm
-  while ((Motor3.isTarPosReached() && Motor2.isTarPosReached()) == true) {
+  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
     _delay(0.1);
   }
   Robot.gaucheAngle(200,90); //Tourner à gauche le robot à la vitesse 200 rpm et de 90 degrés
-  while ((Motor3.isTarPosReached() && Motor2.isTarPosReached()) == true) {
+  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
     _delay(0.1);
   }
   Robot.droiteAngle(200,90); //Tourner à droite le robot à la vitesse 200 rpm et de 90 degrés
-  while ((Motor3.isTarPosReached() && Motor2.isTarPosReached()) == true) {
+  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
     _delay(0.1);
   }
   Robot.move(100,-200); //Tourner la roue gauche à 100 rpm et la droite à -200 rpm

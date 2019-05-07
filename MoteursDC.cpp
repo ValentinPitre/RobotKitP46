@@ -83,9 +83,9 @@ Bras::Bras(uint8_t port):MotorDC(port){}
 
 void Bras::up(int pwm)
 {
-	run(pwm);
+	run(-pwm);
 }
 void Bras::down(int pwm)
 {
-	run(-pwm);
+	run(pwm);
 }

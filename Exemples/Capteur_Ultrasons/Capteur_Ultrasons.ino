@@ -11,9 +11,10 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Distance en centimètres: ");
+  Serial.print("Distance en cm: ");
   Serial.println(MyCapteur.DistanceCm());
-  Serial.print("Distance en millimètres: ");
+  Serial.print("Distance en mm: ");
   Serial.println(MyCapteur.DistanceMm());
+  Serial.println("");
   delay(500);
 }

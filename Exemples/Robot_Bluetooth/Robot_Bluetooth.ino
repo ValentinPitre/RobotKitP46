@@ -13,7 +13,7 @@ MyRobot Robot(&MotorG,&MotorD,6.1,20.5);
 
 void isr_process_encoder2(void)
 {
-      if(digitalRead(MotorD.getPinB()) == 0){
+      if(digitalRead(MotorD.getPinB()) == 1){
             MotorD.pulsePosMinus();
       }else{
             MotorD.pulsePosPlus();
@@ -23,7 +23,7 @@ void isr_process_encoder2(void)
 
 void isr_process_encoder3(void)
 {
-      if(digitalRead(MotorG.getPinB()) == 0){
+      if(digitalRead(MotorG.getPinB()) == 1){
             MotorG.pulsePosMinus();
       }else{
             MotorG.pulsePosPlus();
@@ -43,6 +43,8 @@ void setup(){
     attachInterrupt(MotorG.getIntNum(), isr_process_encoder2, RISING);
     Robot.setBras(Port3A);
     Robot.setPince(Port2A);
+    Robot.setCapteurBrasBas(0x34,1);
+    Robot.setCapteurBrasHaut(0x34,2);
 }
 
 void loop(){

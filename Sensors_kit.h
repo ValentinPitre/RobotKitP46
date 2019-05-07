@@ -3,13 +3,15 @@
 
 #include <Arduino.h>
 #include <stdbool.h>
-#include <L3G.h>
-#define DELAY_BETWEEN_MESUREMENT   10
+//#include <L3G.h>
+#include <ADS1015.h>
+
 
 #define REQUEST_FINDECOURSE1 0x01
 #define REQUEST_FINDECOURSE2 0x02
-#define REQUEST_ULTRASON 0x03
-#define REQUEST_CAPTEURLIGNES 0x04
+#define REQUEST_ULTRASONIC_MM 0x03
+#define REQUEST_ULTRASONIC_CM 0x04
+#define REQUEST_LINESENSOR 0x05
 
 
 //********************************
@@ -21,15 +23,14 @@ class CapteurUltrasons
 public:
   //Constructeur
   CapteurUltrasons();
-  CapteurUltrasons(int8_t address);
+  CapteurUltrasons(uint8_t address);
 
-  void Distance(void);
-  float DistanceCm(void);
-  uint16_t DistanceMm(void);
+  uint8_t DistanceCm(void);
+  uint8_t DistanceMm(void);
 private:
   int8_t _Address;
-  uint16_t _Distance;
-  long _Last_mesurement_time;
+  uint8_t _DistanceCm;
+  uint8_t _DistanceMm;
 };
 
 
@@ -42,13 +43,12 @@ class FinDeCourse
 public:
   //Constructeur
   FinDeCourse();
-  FinDeCourse(int8_t address,int8_t number);
+  FinDeCourse(uint8_t address,int8_t number);
   int8_t State(void);
 private:
   int8_t _Address;
   int8_t _State;
   int8_t _Number;
-  long _Last_mesurement_time;
 };
 
 //********************************
@@ -60,19 +60,35 @@ class CapteurDeLignes
 public:
   //Constructeur
   CapteurDeLignes();
-  CapteurDeLignes(int8_t address);
+  CapteurDeLignes(uint8_t address);
   int8_t State(void);
 private:
   int8_t _Address;
   uint8_t _Number;
   int8_t _State;
-  long _Last_mesurement_time;
 };
 
 //********************************
 //    Capteur de distance SHARP
 //********************************
+class CapteurSharp
+{
+public:
+  //Constructeur
+  CapteurSharp();
+  CapteurSharp(uint8_t address, int8_t number);
+  ~CapteurSharp();
+  float DistanceCm(void);
+  float DistanceMm(void);
+private:
+  ADS1015* _Sharp;
+  int8_t _Address;
+  uint8_t _Number;
+  float _Distance;
+};
 
+
+/*
 //********************************
 //    Gyroscope
 //********************************
@@ -101,5 +117,6 @@ private:
   float _anglez;
 
 };
+*/
 
 #endif

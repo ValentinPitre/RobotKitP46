@@ -15,8 +15,8 @@ MyRobot::MyRobot(MoteurEncodeur* MotG,MoteurEncodeur* MotD, float diametre, floa
 
 	MyPince=NULL;
 	MyBras=NULL;
-	Serial.begin(9600);
-	Serial3.begin(9600);
+	//Serial.begin(9600);
+	Serial2.begin(9600);
 }
 
 MyRobot::MyRobot(uint8_t portMotG,uint8_t portMotD, float diametre, float largeur){
@@ -243,11 +243,29 @@ void MyRobot::moveDegres(int direction,long degres, int speed)
   				break;
   			case 6:
   				if(MyBras!=NULL)
-  					MyBras->up();
+          {
+            if(FdcHaut!=NULL)
+            {
+              if (FdcHaut->State()==0)
+                MyBras->up();
+              else 
+                MyBras->stop();
+            }
+            else
+              MyBras->up();
+          }            
   				break;
    			case 7:
    				if(MyBras!=NULL)
-   					MyBras->down();
+            if(FdcBas!=NULL)
+            {
+              if (FdcBas->State()==0)
+                MyBras->down();
+              else 
+                MyBras->stop();
+            }
+            else
+              MyBras->down();
   				break;
   			case 8:
   				if(MyPince!=NULL)

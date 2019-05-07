@@ -18,6 +18,11 @@
 
 #define SAMPLING_TIME 40
 
+#define Port1 0x01
+#define Port2 0x02
+#define Port3 0x03
+#define Port4 0x04
+
 typedef struct
 {
   float P, I, D;

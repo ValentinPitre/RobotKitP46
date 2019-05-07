@@ -1,4 +1,4 @@
-#include "Sensors_kit.h"
+#include <Sensors_kit.h>
 #include <Wire.h>
 #include <avr/interrupt.h>
 
@@ -6,82 +6,76 @@
 //		Capteur Ultrasons
 //********************************
 CapteurUltrasons::CapteurUltrasons(){}
-CapteurUltrasons::CapteurUltrasons(int8_t address)
+CapteurUltrasons::CapteurUltrasons(uint8_t address)
 {
 	_Address=address;
-	_Distance=0;
-	_Last_mesurement_time=millis()-DELAY_BETWEEN_MESUREMENT;
-	Distance();
+	_DistanceCm=0xff;
+	_DistanceMm=0xff;
+	Wire.begin();
 }
 
-void CapteurUltrasons::Distance(void)
+uint8_t CapteurUltrasons::DistanceMm(void)
 {
   	//Wire.begin()
-  	if ((millis()-_Last_mesurement_time) >= DELAY_BETWEEN_MESUREMENT)
-  	{
-  		_Distance=0;
-	  	while(_Distance==0)
-	  	{
-	  		Wire.beginTransmission(_Address); // transmit to device 
-	  		Wire.write(REQUEST_ULTRASON);        // sends byte
-	    	Wire.endTransmission();    // stop transmitting
+	Wire.beginTransmission(_Address); // transmit to device 
+	Wire.write(REQUEST_ULTRASONIC_MM);        // sends byte
+	Wire.endTransmission();    // stop transmitting
 
-	  		Wire.requestFrom(_Address, 2); // request 2 byte from slave device address 0x34 
-			_Distance = Wire.read();
-			_Distance = _Distance << 8 | Wire.read();
+	Wire.requestFrom(_Address, 1); // request 2 byte from slave device address 0x34 
+	if(Wire.available())
+   		_DistanceMm = Wire.read();
+	else
+		return 0xff;
 
-			_Last_mesurement_time=millis();
-	  	}
-  	}
+  	return _DistanceMm;
 }
 
-float CapteurUltrasons::DistanceCm(void)
+uint8_t CapteurUltrasons::DistanceCm(void)
 {
-	Distance();
-	return float(_Distance)/10.0;
+  	//Wire.begin()
+	Wire.beginTransmission(_Address); // transmit to device 
+	Wire.write(REQUEST_ULTRASONIC_CM);        // sends byte
+	Wire.endTransmission();    // stop transmitting
+
+	Wire.requestFrom(_Address, 1); // request 2 byte from slave device address 0x34 
+	if(Wire.available())
+   		_DistanceCm = Wire.read();
+	else
+		return 0xff;
+
+  	return _DistanceCm;
 }
 
-uint16_t CapteurUltrasons::DistanceMm(void)
-{
-	Distance();
-	return _Distance;
-}
 
 
 //********************************
 //		Fin de courses
 //********************************
 FinDeCourse::FinDeCourse(){}
-FinDeCourse::FinDeCourse(int8_t address,int8_t number)
+FinDeCourse::FinDeCourse(uint8_t address,int8_t number)
 {
 	_Address=address;
 	_Number = number;
 	_State=0xff;
-	_Last_mesurement_time=millis()-DELAY_BETWEEN_MESUREMENT;
-
-	State();
+	Wire.begin();
 }
 
 int8_t FinDeCourse::State(void)
 {
 	//Wire.begin()
-  	if ((millis()-_Last_mesurement_time) >= DELAY_BETWEEN_MESUREMENT)
-  	{
-  		_State=0xff;
-	  	while(_State==0xff)
-	  	{
-	  		Wire.beginTransmission(_Address); // transmit to device 
-	  		if (_Number==1)
-	  			Wire.write(REQUEST_FINDECOURSE1);        // sends byte
-	  		else
-	  			Wire.write(REQUEST_FINDECOURSE2);        // sends byte
-	    	Wire.endTransmission();    // stop transmitting
+	Wire.beginTransmission(_Address); // transmit to device 
+	if (_Number==1)
+	 	Wire.write(REQUEST_FINDECOURSE1);        // sends byte
+	else
+		Wire.write(REQUEST_FINDECOURSE2);        // sends byte
+	Wire.endTransmission();    // stop transmitting
 
-	  		Wire.requestFrom(_Address, 1); // request 1 byte from slave device address 0x34 
-			_State = Wire.read();
-			_Last_mesurement_time=millis();
-	  	}
-  	}
+	Wire.requestFrom(_Address, 1); // request 1 byte from slave device address 0x34 
+	if(Wire.available())
+		_State = Wire.read();
+	else
+		return 0xff;
+  	
   	return _State;
 }
 
@@ -89,34 +83,63 @@ int8_t FinDeCourse::State(void)
 //********************************
 //		Capteur de lignes
 //********************************
-
-CapteurDeLignes::CapteurDeLignes(int8_t address)
+CapteurDeLignes::CapteurDeLignes(){};
+CapteurDeLignes::CapteurDeLignes(uint8_t address)
 {
 	_Address=address;
 	_State=0xff;
-	_Last_mesurement_time=millis()-DELAY_BETWEEN_MESUREMENT;
-
-	State();
+	Wire.begin();
 }
 
 int8_t CapteurDeLignes::State(void)
 {
 	//Wire.begin()
-  	if ((millis()-_Last_mesurement_time) >= DELAY_BETWEEN_MESUREMENT)
-  	{
-  		_State=0xff;
-	  	while(_State==0xff)
-	  	{
-	  		Wire.beginTransmission(_Address); // transmit to device 
-	  		Wire.write(REQUEST_CAPTEURLIGNES);        // sends byte
-	    	Wire.endTransmission();    // stop transmitting
+	Wire.beginTransmission(_Address); // transmit to device 
+	Wire.write(REQUEST_LINESENSOR);        // sends byte
+	Wire.endTransmission();    // stop transmitting
 
-	  		Wire.requestFrom(_Address, 1); // request 1 byte from slave device address 0x34 
-			_State = Wire.read();
-			_Last_mesurement_time=millis();
-	  	}
-  	}
+	Wire.requestFrom(_Address, 1); // request 1 byte from slave device address 0x34 
+	if(Wire.available())
+		_State = Wire.read();
+	else
+		return 0xff;
   	return _State;
+}
+
+
+//********************************
+//		Capteur de distance Sharp
+//********************************
+CapteurSharp::CapteurSharp(){};
+CapteurSharp::CapteurSharp(uint8_t address,int8_t number)
+{
+	_Address=address;
+	_Distance=0;
+	_Number = number;
+
+	_Sharp = new ADS1015(_Address);
+	_Sharp->begin();
+	_Sharp->setGain(GAIN_TWOTHIRDS);
+
+}
+
+CapteurSharp::~CapteurSharp(void)
+{
+	delete _Sharp;
+}
+
+float CapteurSharp::DistanceCm(void)
+{
+	_Distance= _Sharp->readADC_SingleEnded(_Number-1);
+  	_Distance= _Distance*3;
+  	_Distance= map(_Distance,0,5000,0,1024);
+  	_Distance= 2970.4* (1.0/_Distance) - 1.7651;
+  	return _Distance;
+}
+
+float CapteurSharp::DistanceMm(void)
+{
+  	return DistanceCm()*10;
 }
 
 /////////////////////////////////////////////////

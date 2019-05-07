@@ -28,6 +28,6 @@ void loop() {
       Serial.println("Gauche=Noir    Droite=Noir");
       break;
   }
-
-  delay(100);
+  Serial.println("");
+  delay(500);
 }

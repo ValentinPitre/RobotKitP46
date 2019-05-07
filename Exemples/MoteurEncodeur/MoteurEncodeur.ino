@@ -12,7 +12,7 @@ MoteurEncodeur Motor(2); //Déclaration du moteur sur le Port 2 (port allant de 
 //Une fonction d'interruption par moteur
 void isr_process_encoder(void) //Déclaration de l'interruption de l'encodeur du oteur
 {
-      if(digitalRead(Motor.getPinB()) == 0){
+      if(digitalRead(Motor.getPinB()) == 1){
             Motor.pulsePosMinus();  //Le moteur tourne dans le sens inverse, on soustrait la pulsation
       }else{
             Motor.pulsePosPlus(); //Le moteur tourne en avant, on ajoute la pulsation la pulsation

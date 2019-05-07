@@ -106,7 +106,7 @@ int Ultrasonic_Sensor(){
     digitalWrite(SR04_TRIG, LOW);
 
     // On calcul le temps pour l'aller retour du signal
-    duree = pulseIn(SR04_ECHO, HIGH,TIMEOUT_MICROSECONDS);
+    duree = pulseIn(SR04_ECHO, HIGH,MEASURE_TIMEOUT);
     distance = duree / 2.0 * SOUND_SPEED;
     
     pinMode(SR04_TRIG, INPUT_PULLUP);
