@@ -33,7 +33,10 @@ void _loop()
 }
 
 //Déclaration du robot
-MyRobot Robot(&Motor2,&Motor3,6.1/*Diametre roue*/,20.5/*Largeur entre les roues*/);
+MyRobot Robot(&Motor2,&Motor3,6.1/*Diametre roue*/,20.5/*Largeur maximale entre 2 roue*/);
+//La largeur maximale entre 2 roue correspond généralement:
+//- pour les robot 2 roue à la distance entre les 2 roues
+//- pour les robots chenille à la distance entre la roue avant gauche et la roue arrière droite
 
 //Fonction delay bis
 void _delay(float seconds) {
