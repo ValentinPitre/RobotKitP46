@@ -40,6 +40,7 @@ public:
 
   void move(int speed_g, int speed_d);
   void moveDegres(int direction,long degres, int speed);
+  void WaitTarPosReached(void);
 
   void BrasHaut(int pwm=150);
   void BrasBas(int pwm=100);

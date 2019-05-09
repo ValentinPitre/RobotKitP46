@@ -78,6 +78,7 @@ public:
   CapteurSharp();
   CapteurSharp(uint8_t address, int8_t number);
   ~CapteurSharp();
+  int Distance(void);
   float DistanceCm(void);
   float DistanceMm(void);
 private:

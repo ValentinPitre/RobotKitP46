@@ -30,7 +30,7 @@ public:
 	MotorDC();
 	MotorDC(uint8_t port);
 	void run(int pwm);
-	void stop(void);
+	virtual void stop(void);
 protected:
 ;
 	uint8_t _Slot;
@@ -56,8 +56,12 @@ public:
   //Constructeur
   Bras();
   Bras(uint8_t port);
+  virtual void stop();
   void up(int pwm=200);
   void down(int pwm=100);
+  uint8_t getState(void);
+private:
+  uint8_t _State;
 };
 #endif
 

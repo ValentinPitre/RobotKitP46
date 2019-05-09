@@ -61,21 +61,13 @@ void loop() {
 
   
   Robot.avancerCm(200,10);  //Avancer le robot à la vitesse 200 rpm de 10cm
-  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
-    _delay(0.1);
-  }
+  Robot.WaitTarPosReached(); //Attendre la fin du mouvement
   Robot.reculerCm(200,10); //Reculer le robot à la vitesse 200 rpm de 10cm
-  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
-    _delay(0.1);
-  }
+  Robot.WaitTarPosReached(); //Attendre la fin du mouvement
   Robot.gaucheAngle(200,90); //Tourner à gauche le robot à la vitesse 200 rpm et de 90 degrés
-  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
-    _delay(0.1);
-  }
+  Robot.WaitTarPosReached(); //Attendre la fin du mouvement
   Robot.droiteAngle(200,90); //Tourner à droite le robot à la vitesse 200 rpm et de 90 degrés
-  while ((Motor3.isTarPosReached() and Motor2.isTarPosReached()) == false) { //On attends que la position de smoteurs soit atteinte
-    _delay(0.1);
-  }
+  Robot.WaitTarPosReached(); //Attendre la fin du mouvement
   Robot.move(100,-200); //Tourner la roue gauche à 100 rpm et la droite à -200 rpm
   _delay(1);
   Robot.stop();

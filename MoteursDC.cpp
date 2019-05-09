@@ -79,13 +79,25 @@ void Pince::close(int pwm)
 //		Bras
 //**************************
 Bras::Bras(){}
-Bras::Bras(uint8_t port):MotorDC(port){}
-
+Bras::Bras(uint8_t port):MotorDC(port){
+	_State='s';
+}
+void Bras::stop()
+{
+	run(0);
+	_State='s';
+}
 void Bras::up(int pwm)
 {
 	run(-pwm);
+	_State='u';
 }
 void Bras::down(int pwm)
 {
 	run(pwm);
+	_State='d';
+}
+uint8_t Bras::getState(void)
+{
+	return _State;
 }

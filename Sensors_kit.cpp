@@ -128,6 +128,13 @@ CapteurSharp::~CapteurSharp(void)
 	delete _Sharp;
 }
 
+int CapteurSharp::Distance(void)
+{
+	_Distance= _Sharp->readADC_SingleEnded(_Number-1);
+  	_Distance= _Distance*3;
+  	_Distance= map(_Distance,0,5000,0,1024);
+  	return _Distance;
+}
 float CapteurSharp::DistanceCm(void)
 {
 	_Distance= _Sharp->readADC_SingleEnded(_Number-1);

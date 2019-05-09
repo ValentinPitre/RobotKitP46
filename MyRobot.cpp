@@ -178,6 +178,16 @@ void MyRobot::moveDegres(int direction,long degres, int speed)
     }
     
 }
+  
+void MyRobot::WaitTarPosReached(void) 
+{
+  while ((Moteur_g->isTarPosReached() and Moteur_d->isTarPosReached()) == false) { //On attends que la position des moteurs soit atteinte
+    Moteur_g->loop();    
+    Moteur_d->loop();
+  }
+}
+
+
 
   void MyRobot::BrasHaut(int pwm)
   {
@@ -243,28 +253,10 @@ void MyRobot::moveDegres(int direction,long degres, int speed)
   				break;
   			case 6:
   				if(MyBras!=NULL)
-          {
-            if(FdcHaut!=NULL)
-            {
-              if (FdcHaut->State()==0)
-                MyBras->up();
-              else 
-                MyBras->stop();
-            }
-            else
-              MyBras->up();
-          }            
+            MyBras->up();          
   				break;
    			case 7:
    				if(MyBras!=NULL)
-            if(FdcBas!=NULL)
-            {
-              if (FdcBas->State()==0)
-                MyBras->down();
-              else 
-                MyBras->stop();
-            }
-            else
               MyBras->down();
   				break;
   			case 8:
@@ -277,4 +269,18 @@ void MyRobot::moveDegres(int direction,long degres, int speed)
   				break;
   		}
   	}
+
+    if(MyBras!=NULL)
+    {
+      if(FdcBas!=NULL)
+        {
+          if (FdcBas->State()==1 and MyBras->getState()=='d') 
+            MyBras->stop();
+        }
+      if(FdcHaut!=NULL)
+        {
+          if (FdcHaut->State()==1 and MyBras->getState()=='u')
+            MyBras->stop();
+        }
+    }
   }

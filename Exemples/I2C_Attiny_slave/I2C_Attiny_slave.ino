@@ -9,7 +9,6 @@
 
 #define REQUEST_FINDECOURSE1 0x01
 #define REQUEST_FINDECOURSE2 0x02
-#define REQUEST_ULTRASONIC_MM 0x03
 #define REQUEST_ULTRASONIC_CM 0x04
 #define REQUEST_LINESENSOR 0x05
 
@@ -48,10 +47,8 @@ void requestEvent()
 {
     if (DataRequested==REQUEST_LINESENSOR)
         SentData=Line_Sensor();
-    else if (DataRequested==REQUEST_ULTRASONIC_MM)
+    else if (DataRequested==REQUEST_ULTRASONIC_CM)
         SentData=Ultrasonic_Sensor_cm();
-    else if (DataRequested==REQUEST_ULTRASONIC_MM)
-        SentData=Ultrasonic_Sensor_mm();
     else if (DataRequested==REQUEST_FINDECOURSE1)
         SentData=Fdc_Sensor(1);
     else if (DataRequested==REQUEST_FINDECOURSE2)
@@ -84,9 +81,9 @@ uint8_t Line_Sensor(){
 
 uint8_t Fdc_Sensor(int number){
     if (number==1)
-        return digitalRead(LineSensor1);
+        return digitalRead(FdC1);
     else if (number==2)
-        return digitalRead(LineSensor2);
+        return digitalRead(FdC2);
     return 0xff;
 }
 
@@ -112,12 +109,6 @@ int Ultrasonic_Sensor(){
     pinMode(SR04_TRIG, INPUT_PULLUP);
     pinMode(SR04_ECHO, INPUT_PULLUP);
     return distance;
-}
-
-uint8_t Ultrasonic_Sensor_mm(){
-  int distance =  Ultrasonic_Sensor();
-  distance = distance > 254 ? 254 : distance; //On borne à 254 mm, 255 étant un message d'erreur
-  return distance;
 }
 
 uint8_t Ultrasonic_Sensor_cm(){

@@ -10,6 +10,8 @@ MoteurEncodeur MotorG(2);
 MoteurEncodeur MotorD(3);
 MyRobot Robot(&MotorG,&MotorD,6.1,20.5);
 
+CapteurSharp MyCapteurG(0x05,1);
+CapteurSharp MyCapteurD(0x05,2); 
 
 void isr_process_encoder2(void)
 {
@@ -43,8 +45,8 @@ void setup(){
     attachInterrupt(MotorG.getIntNum(), isr_process_encoder2, RISING);
     Robot.setBras(Port3A);
     Robot.setPince(Port2A);
-    Robot.setCapteurBrasBas(0x34,1);
-    Robot.setCapteurBrasHaut(0x34,2);
+    //Robot.setCapteurBrasBas(0x34,1);
+    //Robot.setCapteurBrasHaut(0x34,2);
 }
 
 void loop(){
