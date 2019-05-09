@@ -152,16 +152,14 @@ float CapteurSharp::DistanceMm(void)
 /////////////////////////////////////////////////
 
 
-/*
+/* //Nous ne nou sservirons pas du gyrocope
 Gyroscope::Gyroscope()
 {
+	Wire.begin();
 	gyro = new L3G();
 	gyro->init();
 	gyro->enableDefault();
   	gyro->writeReg(0x23, 0b00010000);   // FS = 00 (+/- 2000 dps full scale)
-
-  	init();
-
 }
 
 void Gyroscope::init(void)
@@ -181,16 +179,6 @@ void Gyroscope::init(void)
   	_anglex=0;
   	_angley=0;
   	_anglez=0;
-}
-
-void Gyroscope::init_interruption(void)
-{
-	cli(); // Désactive l'interruption globale
-	bitClear (TCCR2A, WGM20); // WGM20 = 0
-	bitClear (TCCR2A, WGM21); // WGM21 = 0 
-	TCCR2B = 0b00000110; // Clock / 256 soit 16 micro-s et WGM22 = 0
-	TIMSK2 = 0b00000001; // Interruption locale autorisée par TOIE2
-	sei(); // Active l'interruption globale
 }
 
 

@@ -89,7 +89,7 @@ private:
 };
 
 
-/*
+/* Code dont nous ne nous servirons pas
 //********************************
 //    Gyroscope
 //********************************
@@ -99,7 +99,6 @@ public:
   //Constructeur
   Gyroscope(void);
   void init(void);
-  void init_interruption(void);
   void Measure(void);
   float angleX(void);
   float angleY(void);

@@ -49,10 +49,11 @@ void setup() {
   attachInterrupt(Motor2.getIntNum(), isr_process_encoder2, RISING);
   attachInterrupt(Motor3.getIntNum(), isr_process_encoder3, RISING);
 
-  longer_mur('g',120);
+  longer_mur('g',120,25);
 }
 
 void loop() {delay(1000);}
+
 
 int dist_IR(char capt)
 {
@@ -61,41 +62,46 @@ int dist_IR(char capt)
   return -1;
 }
 
-#define distance_longer 210 //Valeur du capteur, pas en cm
 
- void longer_mur(char mur, int vitesse)
+// Cette fonction permet de longer un mur, on privilégiera une régulation sur la valeur brute du capteur qui offre une régulation plus rapide qu'en passant pas des valeurs en cm grâce à la forma caractéristique de la courbe
+ void longer_mur(char mur, int vitesse, int distance_avec_mur)
 {
+  distance_longer  =  2976.4 / (distance_avec_mur + 1.7651);  //renvoie la valeur entre 0 et 1024 que nous devons avoir sur le capteur
+
   int P,I=0,D;
-  float Kp=0.3,Ki=0,Kd=20;
+  float Kp=0.3,Ki=0,Kd=20; //On fixe les paramètres du PID
 
   int capteur = dist_IR(mur);
-  while (capteur < 110)
+  while (capteur < 110) //On avance jusqu'à détecter un mur
   {
     Robot.move('a',vitesse);
     _delay(0.05);
     capteur = dist_IR(mur);
   }
 
+  //Calcul des erreurs
   int capteur_old = capteur;
   int diff_capteur = distance_longer - capteur;
   int diff_capteur_old = diff_capteur;
 
-  while (abs(capteur-capteur_old) < 110 and capteur > 90)
+  while (abs(capteur-capteur_old) < 110 and capteur > 90) //Tant que l'on détecte un mur
   {
+    //Calcul des coeff du PID
     P = Kp * diff_capteur;
     I += Ki * diff_capteur/1000;
     D = Kd * (diff_capteur - diff_capteur_old)/10;
 
+    //On applique a consigne
     if (mur == 'g')
       Robot.move((-vitesse + P + I + D),(vitesse + P + I + D));
     else if (mur == 'd')
       Robot.move((-vitesse - P - I - D),(vitesse - P - I - D));
 
-
-    _delay(0.02);
+    //Echantillonnage 
+    _delay(0.02); 
+    //Actualisation des erreurs
     capteur_old = capteur;
     capteur = dist_IR(mur);
-
     diff_capteur_old = diff_capteur;
     diff_capteur = distance_longer - capteur;
   }
