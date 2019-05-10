@@ -26,11 +26,9 @@ public:
   CapteurUltrasons(uint8_t address);
 
   uint8_t DistanceCm(void);
-  uint8_t DistanceMm(void);
 private:
   int8_t _Address;
   uint8_t _DistanceCm;
-  uint8_t _DistanceMm;
 };
 
 

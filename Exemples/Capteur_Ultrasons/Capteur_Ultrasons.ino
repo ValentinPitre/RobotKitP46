@@ -13,8 +13,6 @@ void setup() {
 void loop() {
   Serial.print("Distance en cm: ");
   Serial.println(MyCapteur.DistanceCm()); //Valeur sur 1 octet entre 0 et 254 (255 étant un message d'erreur)
-  Serial.print("Distance en mm: ");
-  Serial.println(MyCapteur.DistanceMm()); //Valeur sur 1 octet entre 0 et 254 (255 étant un message d'erreur)
   Serial.println("");
   delay(500);
 }

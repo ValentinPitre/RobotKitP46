@@ -14,22 +14,6 @@ CapteurUltrasons::CapteurUltrasons(uint8_t address)
 	Wire.begin();
 }
 
-uint8_t CapteurUltrasons::DistanceMm(void)
-{
-  	//Wire.begin()
-	Wire.beginTransmission(_Address); // transmit to device 
-	Wire.write(REQUEST_ULTRASONIC_MM);        // sends byte
-	Wire.endTransmission();    // stop transmitting
-
-	Wire.requestFrom(_Address, 1); // request 2 byte from slave device address 0x34 
-	if(Wire.available())
-   		_DistanceMm = Wire.read();
-	else
-		return 0xff;
-
-  	return _DistanceMm;
-}
-
 uint8_t CapteurUltrasons::DistanceCm(void)
 {
   	//Wire.begin()
