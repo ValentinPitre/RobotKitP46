@@ -10,7 +10,6 @@ CapteurUltrasons::CapteurUltrasons(uint8_t address)
 {
 	_Address=address;
 	_DistanceCm=0xff;
-	_DistanceMm=0xff;
 	Wire.begin();
 }
 
