@@ -10,8 +10,8 @@ MoteurEncodeur MotorG(2);
 MoteurEncodeur MotorD(3);
 MyRobot Robot(&MotorG,&MotorD,6.1,20.5);
 
-CapteurSharp MyCapteurG(0x05,1);
-CapteurSharp MyCapteurD(0x05,2); 
+CapteurSharp MyCapteurG(0x48,1);
+CapteurSharp MyCapteurD(0x48,2); 
 
 void isr_process_encoder2(void)
 {
